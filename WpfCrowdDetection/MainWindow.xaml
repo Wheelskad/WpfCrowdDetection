@@ -1,0 +1,38 @@
+﻿<Controls:MetroWindow x:Class="WpfCrowdDetection.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfCrowdDetection"
+        xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        mc:Ignorable="d"
+        Title="{Binding StandName}" Height="480" Width="640"
+        DataContext="{Binding Main, Source={StaticResource Locator}}"
+        Closed="Window_Closed">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+
+        <StackPanel Grid.Row="0" Grid.ColumnSpan="2" Orientation="Horizontal">
+            <CheckBox Margin="10,10,0,0" IsChecked="{Binding IsShowCameraPreview}">Enable camera preview</CheckBox>
+            <CheckBox Margin="10,10,0,0" IsChecked="{Binding IsShowDetectionFacePreview}">Enable face detection preview</CheckBox>
+        </StackPanel>
+
+        <Image Margin="10" Grid.Row="1" Grid.Column="0"  Source="{Binding GrabImageSource, TargetNullValue={StaticResource NoImage}}" />
+        <Image Margin="10" Grid.Row="1" Grid.Column="1"  Source="{Binding FaceDetectionImageSource, TargetNullValue={StaticResource NoImage}}" />
+        
+        <StackPanel Grid.Row="2" Grid.ColumnSpan="2" Orientation="Horizontal">
+            <Button Margin="10,0,0,10" Command="{Binding StartCaptureCommand}">Start capture</Button>
+            <Button Margin="10,0,0,10" Command="{Binding StopCaptureCommand}">Stop capture</Button>
+            <Button Margin="10,0,0,10" Command="{Binding StartFaceDetectionCommand}">Start face detection</Button>
+            <Button Margin="10,0,0,10" Command="{Binding StopFaceDetectionCommand}">Stop face detection</Button>
+        </StackPanel>
+    </Grid>
+</Controls:MetroWindow>

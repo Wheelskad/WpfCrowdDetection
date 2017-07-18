@@ -7,12 +7,14 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using WpfCrowdDetection.Converters;
 using WpfCrowdDetection.Helper;
+using WpfCrowdDetection.Model;
 using WpfCrowdDetection.Services;
 
 namespace WpfCrowdDetection.ViewModel
@@ -29,6 +31,8 @@ namespace WpfCrowdDetection.ViewModel
 
         private readonly ICustomDialogService _dialogService;
         private readonly VideoCaptureManager _videoCaptureManager;
+        private readonly IotHubPublisher _iotHubPublisher;
+
         private BitmapSource _grabImageSource;
         private BitmapSource _faceDetectionImageSource;
         private ICommand _startCaptureCommand;
@@ -128,9 +132,35 @@ namespace WpfCrowdDetection.ViewModel
             }
         }
 
+        public string DeviceId
+        {
+            get
+            {
+                return Properties.Settings.Default.DeviceId;
+            }
+        }
+
+        public string IotHubHostName
+        {
+            get
+            {
+                return Properties.Settings.Default.IotHubHostName;
+            }
+        }
+
+        public string SharedAccessKey
+        {
+            get
+            {
+                return Properties.Settings.Default.SharedAccessKey;
+            }
+        }
+
         public bool IsShowCameraPreview { get; set; }
 
         public bool IsShowDetectionFacePreview { get; set; }
+
+        public bool IsSendToIoTHub { get; set; }
 
         private DetectionModeEnum DetectionMode { get; set; }
 
@@ -146,6 +176,9 @@ namespace WpfCrowdDetection.ViewModel
             _dialogService = dialogService;
             _videoCaptureManager = new VideoCaptureManager(CameraId);
             _videoCaptureManager.NewImageComplete += videoCaptureManager_OnNewImageComplete;
+
+            _iotHubPublisher = new IotHubPublisher(IotHubHostName, DeviceId, SharedAccessKey);
+
             _faceDetectionConfigFilePath = Path.Combine(_configFileDirectory, _faceDetectionConfig);
             _eyeDetectionConfigFilePath = Path.Combine(_configFileDirectory, _eyeDetectionConfig);
 
@@ -198,26 +231,25 @@ namespace WpfCrowdDetection.ViewModel
             _timerFaceDetectionProcess.Stop();
         }
 
-        private async Task<Image<Bgr, byte>> DetectFacesBing(Mat snaphsot)
+        private async Task<DetectionInfo> DetectFacesBing(Mat snaphsot)
         {
             var detectionImage = snaphsot.ToImage<Bgr, Byte>();
             var bitmap = detectionImage.ToBitmap();
+            ICollection<Rectangle> facesRectangle = null;
             using (var imageFileStream = new MemoryStream())
             {
                 bitmap.Save(imageFileStream, ImageFormat.Jpeg);
                 imageFileStream.Position = 0;
-                var facesRectangle = await DetectFaceHelper.DetectFacesBing(imageFileStream);
-                foreach (var faceRectangle in facesRectangle)
-                {
-                    var rectangle = new Rectangle(faceRectangle.Left, faceRectangle.Top, faceRectangle.Width, faceRectangle.Height);
-                    detectionImage.Draw(rectangle, new Bgr(0, double.MaxValue, 0), 3);
-                }
+                var rectangles = await DetectFaceHelper
+                    .DetectFacesBing(imageFileStream);
+                facesRectangle = rectangles
+                    .Select((faceRectangle) => new Rectangle(faceRectangle.Left, faceRectangle.Top, faceRectangle.Width, faceRectangle.Height))
+                    .ToList();
             }
-
-            return detectionImage;
+            return new DetectionInfo(detectionImage, facesRectangle);
         }
 
-        private Image<Bgr, byte> DetectFacesOpenCV(Mat snaphsot)
+        private DetectionInfo DetectFacesOpenCV(Mat snaphsot)
         {
             long detectionTime;
             var facesRectangle = new List<Rectangle>();
@@ -228,38 +260,54 @@ namespace WpfCrowdDetection.ViewModel
               facesRectangle, eyesRectangle,
               out detectionTime);
             var detectionImage = snaphsot.ToImage<Bgr, Byte>();
-            foreach (var faceRectangle in facesRectangle)
-            {
-                detectionImage.Draw(faceRectangle, new Bgr(0, double.MaxValue, 0), 3);
-            }
-
-            return detectionImage;
+            return new DetectionInfo(detectionImage, facesRectangle);
         }
 
         private async void DetectFace()
         {
-            if (!_videoCaptureManager.IsCaptureInProgress)
+            try
             {
-                return;
-            }
+                if (!_videoCaptureManager.IsCaptureInProgress)
+                {
+                    return;
+                }
 
-            var snaphsot = _videoCaptureManager.TakeSnapshot();
-            if (snaphsot == null)
-            {
-                return;
-            }
+                var snaphsot = _videoCaptureManager.TakeSnapshot();
+                if (snaphsot == null)
+                {
+                    return;
+                }
 
-            Image<Bgr, byte> detectionImage = null;
-            switch (DetectionMode)
-            {
-                case DetectionModeEnum.OpenCV:
-                    detectionImage = DetectFacesOpenCV(snaphsot);
-                    break;
-                case DetectionModeEnum.Bing:
-                    detectionImage = await DetectFacesBing(snaphsot);
-                    break;
+                DetectionInfo detectionInfo = null;
+                switch (DetectionMode)
+                {
+                    case DetectionModeEnum.OpenCV:
+                        detectionInfo = DetectFacesOpenCV(snaphsot);
+                        break;
+                    case DetectionModeEnum.Bing:
+                        detectionInfo = await DetectFacesBing(snaphsot);
+                        break;
+                }
+
+                if (IsShowDetectionFacePreview)
+                {
+                    var detectionImage = detectionInfo.Image;
+                    foreach (var faceRectangle in detectionInfo.Rectangles)
+                    {
+                        detectionImage.Draw(faceRectangle, new Bgr(0, double.MaxValue, 0), 3);
+                    }
+                    Dispatcher.CurrentDispatcher.Invoke(() => FaceDetectionImageSource = BitmapSourceConverter.ToBitmapSource(detectionImage));
+                }
+
+                if (IsSendToIoTHub && detectionInfo.Rectangles.Any())
+                {
+                    _iotHubPublisher.SendDataAsync(new DeviceNotification(DeviceId, detectionInfo.Rectangles.Count));
+                }
             }
-            Dispatcher.CurrentDispatcher.Invoke(() => FaceDetectionImageSource = BitmapSourceConverter.ToBitmapSource(detectionImage));
+            catch(Exception ex)
+            {
+                _dialogService.ShowMessageBox(ex.Message, "Error", System.Windows.MessageBoxButton.OK);
+            }
         }
 
         public override void Cleanup()

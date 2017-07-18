@@ -92,6 +92,7 @@ namespace WpfCrowdDetection.Helper
 
         public void Dispose()
         {
+            StopCapture();
             if (_capture != null)
             {
                 _capture.Dispose();

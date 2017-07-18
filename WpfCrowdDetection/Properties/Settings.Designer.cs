@@ -37,7 +37,7 @@ namespace WpfCrowdDetection.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("2")]
+        [global::System.Configuration.DefaultSettingValueAttribute("5")]
         public int FaceDetectionProcessInSeconds {
             get {
                 return ((int)(this["FaceDetectionProcessInSeconds"]));
@@ -61,25 +61,13 @@ namespace WpfCrowdDetection.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("XXXX")]
-        public string DeviceAuthenticationKey {
+        [global::System.Configuration.DefaultSettingValueAttribute("NestorHub.azure-devices.net")]
+        public string IotHubHostName {
             get {
-                return ((string)(this["DeviceAuthenticationKey"]));
+                return ((string)(this["IotHubHostName"]));
             }
             set {
-                this["DeviceAuthenticationKey"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("XXXX")]
-        public string AzureIotHubConnectionString {
-            get {
-                return ((string)(this["AzureIotHubConnectionString"]));
-            }
-            set {
-                this["AzureIotHubConnectionString"] = value;
+                this["IotHubHostName"] = value;
             }
         }
         
@@ -92,6 +80,18 @@ namespace WpfCrowdDetection.Properties {
             }
             set {
                 this["CameraId"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("CVw/GunXmjxhpcSzoUmbnm/wJN4N6f0uKfrJu3ppR9g=")]
+        public string SharedAccessKey {
+            get {
+                return ((string)(this["SharedAccessKey"]));
+            }
+            set {
+                this["SharedAccessKey"] = value;
             }
         }
     }

@@ -6,19 +6,19 @@
       <Value Profile="(Default)">Stand 01</Value>
     </Setting>
     <Setting Name="FaceDetectionProcessInSeconds" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">2</Value>
+      <Value Profile="(Default)">5</Value>
     </Setting>
     <Setting Name="DeviceId" Type="System.String" Scope="User">
       <Value Profile="(Default)">DGWStand1</Value>
     </Setting>
-    <Setting Name="DeviceAuthenticationKey" Type="System.String" Scope="User">
-      <Value Profile="(Default)">XXXX</Value>
-    </Setting>
-    <Setting Name="AzureIotHubConnectionString" Type="System.String" Scope="User">
-      <Value Profile="(Default)">XXXX</Value>
+    <Setting Name="IotHubHostName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">NestorHub.azure-devices.net</Value>
     </Setting>
     <Setting Name="CameraId" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="SharedAccessKey" Type="System.String" Scope="User">
+      <Value Profile="(Default)">CVw/GunXmjxhpcSzoUmbnm/wJN4N6f0uKfrJu3ppR9g=</Value>
     </Setting>
   </Settings>
 </SettingsFile>

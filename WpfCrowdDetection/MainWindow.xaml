@@ -7,6 +7,7 @@
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         mc:Ignorable="d"
         Title="{Binding StandName}" Height="480" Width="640"
+        Icon="./Images/app.png"
         DataContext="{Binding Main, Source={StaticResource Locator}}"
         Closed="Window_Closed">
     <Grid>
@@ -23,6 +24,7 @@
         <StackPanel Grid.Row="0" Grid.ColumnSpan="2" Orientation="Horizontal">
             <CheckBox Margin="10,10,0,0" IsChecked="{Binding IsShowCameraPreview}">Enable camera preview</CheckBox>
             <CheckBox Margin="10,10,0,0" IsChecked="{Binding IsShowDetectionFacePreview}">Enable face detection preview</CheckBox>
+            <CheckBox Margin="10,10,0,0" IsChecked="{Binding IsSendToIoTHub}">Send to IoT Hub</CheckBox>
         </StackPanel>
 
         <Image Margin="10" Grid.Row="1" Grid.Column="0"  Source="{Binding GrabImageSource, TargetNullValue={StaticResource NoImage}}" />

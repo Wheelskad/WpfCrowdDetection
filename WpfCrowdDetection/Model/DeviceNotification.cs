@@ -1,12 +1,16 @@
-﻿namespace WpfCrowdDetection.Model
+﻿using Newtonsoft.Json;
+
+namespace WpfCrowdDetection.Model
 {
     public class DeviceNotification
     {
         #region Properties
 
-        public string deviceId { get; set; }
+        [JsonProperty("deviceId")]
+        public string DeviceId { get; set; }
 
-        public int persons { get; set; }
+        [JsonProperty("persons")]
+        public int Persons { get; set; }
 
         #endregion Properties
 
@@ -14,8 +18,8 @@
 
         public DeviceNotification(string deviceId, int persons)
         {
-            this.deviceId = deviceId;
-            this.persons = persons;
+            DeviceId = deviceId;
+            Persons = persons;
         }
 
         public DeviceNotification()

@@ -6,10 +6,21 @@
         xmlns:local="clr-namespace:WpfCrowdDetection"
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         mc:Ignorable="d"
-        Title="{Binding StandName}" Height="480" Width="640"
-        Icon="./Images/app.png"
+        Title="{Binding StandName, StringFormat='CGI - {0}'}" Height="480" Width="640"
         DataContext="{Binding Main, Source={StaticResource Locator}}"
         Closed="Window_Closed">
+    <Controls:MetroWindow.IconTemplate>
+        <DataTemplate>
+            <Grid Width="{TemplateBinding Width}"
+                 Height="{TemplateBinding Height}"
+                 Margin="4"
+                 Background="Transparent"
+                 RenderOptions.EdgeMode="Aliased"
+                 RenderOptions.BitmapScalingMode="HighQuality">
+                <Image Source="./Images/app.png"></Image>
+            </Grid>
+        </DataTemplate>
+    </Controls:MetroWindow.IconTemplate>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />

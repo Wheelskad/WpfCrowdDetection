@@ -28,21 +28,28 @@
             <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition />
-            <ColumnDefinition />
+            <ColumnDefinition Width="236*" />
+            <ColumnDefinition Width="236*" />
+            <ColumnDefinition Width="162*" />
         </Grid.ColumnDefinitions>
 
-        <StackPanel Grid.Row="0" Grid.ColumnSpan="2" Orientation="Horizontal">
+        <StackPanel Grid.Row="0" Grid.ColumnSpan="2" Orientation="Horizontal" Margin="0,0,1,0.2">
             <CheckBox Margin="10,10,0,0" IsChecked="{Binding IsShowCameraPreview}">Enable camera preview</CheckBox>
             <CheckBox Margin="10,10,0,0" IsChecked="{Binding IsShowDetectionFacePreview}">Enable face detection preview</CheckBox>
             <CheckBox Margin="10,10,0,0" IsChecked="{Binding IsSendToIoTHub}">Send to IoT Hub</CheckBox>
         </StackPanel>
 
-        <Image Margin="10" Grid.Row="1" Grid.Column="0"  Source="{Binding GrabImageSource, TargetNullValue={StaticResource NoImage}}" />
-        <Image Margin="10" Grid.Row="1" Grid.Column="1"  Source="{Binding FaceDetectionImageSource, TargetNullValue={StaticResource NoImage}}" />
-        
-        <StackPanel Grid.Row="2" Grid.ColumnSpan="2" Orientation="Horizontal">
+        <Image Margin="10,9.8,4.8,10" Grid.Row="1" Grid.Column="0"  Source="{Binding GrabImageSource, TargetNullValue={StaticResource NoImage}}" />
+        <Image Margin="15.2,9.8,1,10" Grid.Row="1" Grid.Column="1"  Source="{Binding FaceDetectionImageSource, TargetNullValue={StaticResource NoImage}}" />
+
+        <StackPanel Grid.Row="1" Grid.ColumnSpan="2" Orientation="Horizontal" Margin="0,387.8,1,0">
             <Button Margin="10,0,0,10" Command="{Binding StartCaptureCommand}">Start capture</Button>
+            <Button Margin="10,0,0,10" Command="{Binding StopCaptureCommand}">Stop capture</Button>
+            <Button Margin="10,0,0,10" Command="{Binding StartFaceDetectionCommand}">Start face detection</Button>
+            <Button Margin="10,0,0,10" Command="{Binding StopFaceDetectionCommand}">Stop face detection</Button>
+        </StackPanel>
+        <StackPanel Grid.Column="2" Orientation="Vertical" Margin="12,27,-0.4,0" Grid.RowSpan="2">
+            <TextBlock Margin="10,0,0,10" Text="{Binding GenderFemaleCount}"></TextBlock>
             <Button Margin="10,0,0,10" Command="{Binding StopCaptureCommand}">Stop capture</Button>
             <Button Margin="10,0,0,10" Command="{Binding StartFaceDetectionCommand}">Start face detection</Button>
             <Button Margin="10,0,0,10" Command="{Binding StopFaceDetectionCommand}">Stop face detection</Button>

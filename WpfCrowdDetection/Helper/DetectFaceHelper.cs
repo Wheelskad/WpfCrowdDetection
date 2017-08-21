@@ -124,21 +124,34 @@ namespace WpfCrowdDetection.Helper
             }
         }
 
-        public static async Task<FaceRectangle[]> DetectFacesBing(System.IO.Stream imageStream)
+        public static async Task<Face[]> DetectFacesBing(System.IO.Stream imageStream)
         {
             Stopwatch watch;
             try
             {
+                //Ajout des attributs du visage pour détection genre, tranche d'âge, sourire, barbe et lunettes
+                var requiredFaceAttributes = new FaceAttributeType[] {
+                FaceAttributeType.Age,
+                FaceAttributeType.Gender,
+                FaceAttributeType.Smile,
+                FaceAttributeType.Hair,
+                FaceAttributeType.FacialHair,
+                FaceAttributeType.Glasses,
+                FaceAttributeType.Accessories,
+                FaceAttributeType.Emotion     
+            };
+
                 watch = Stopwatch.StartNew();
-                var faces = await faceServiceClient.DetectAsync(imageStream);
-                var faceRects = faces.Select(face => face.FaceRectangle);
+                //var faces = await faceServiceClient.DetectAsync(imageStream);
+                var faces = await faceServiceClient.DetectAsync(imageStream, returnFaceId:true, returnFaceLandmarks:false, returnFaceAttributes: requiredFaceAttributes);
+                //var faceRects = faces.Select(face => face.FaceRectangle);
                 watch.Stop();
                 var detectionTime = watch.ElapsedMilliseconds;
-                return faceRects.ToArray();
+                return faces.ToArray();
             }
             catch (Exception ex)
             {
-                return new FaceRectangle[0];
+                return new Face[0];
             }
         }
     }

@@ -164,6 +164,10 @@ namespace WpfCrowdDetection.ViewModel
 
         private DetectionModeEnum DetectionMode { get; set; }
 
+        public string GenderMaleCount { get; set; }
+
+        public string GenderFemaleCount { get; set; }
+
         #endregion Properties
 
         #region Methods
@@ -236,17 +240,23 @@ namespace WpfCrowdDetection.ViewModel
             var detectionImage = snaphsot.ToImage<Bgr, Byte>();
             var bitmap = detectionImage.ToBitmap();
             ICollection<Rectangle> facesRectangle = null;
+            ICollection<Microsoft.ProjectOxford.Face.Contract.Face> faces = null;
+
             using (var imageFileStream = new MemoryStream())
             {
                 bitmap.Save(imageFileStream, ImageFormat.Jpeg);
                 imageFileStream.Position = 0;
-                var rectangles = await DetectFaceHelper
-                    .DetectFacesBing(imageFileStream);
+                //
+                faces = await DetectFaceHelper.DetectFacesBing(imageFileStream);
+                var rectangles = faces.Select(face => face.FaceRectangle);
+
+
+                // https://github.com/Microsoft/Cognitive-Face-Windows/blob/master/Sample-WPF/Controls/FaceDetectionPage.xaml.cs
                 facesRectangle = rectangles
                     .Select((faceRectangle) => new Rectangle(faceRectangle.Left, faceRectangle.Top, faceRectangle.Width, faceRectangle.Height))
                     .ToList();
             }
-            return new DetectionInfo(detectionImage, facesRectangle);
+            return new DetectionInfo(detectionImage, facesRectangle, faces);
         }
 
         private DetectionInfo DetectFacesOpenCV(Mat snaphsot)
@@ -297,11 +307,29 @@ namespace WpfCrowdDetection.ViewModel
                         detectionImage.Draw(faceRectangle, new Bgr(0, double.MaxValue, 0), 3);
                     }
                     Dispatcher.CurrentDispatcher.Invoke(() => FaceDetectionImageSource = BitmapSourceConverter.ToBitmapSource(detectionImage));
+                    Dispatcher.CurrentDispatcher.Invoke(() => GenderMaleCount = "Male");
                 }
-
-                if (IsSendToIoTHub && detectionInfo.Rectangles.Any())
+                //Suppression de la condition "&& detectionInfo.Rectangles.Any()" pour réinitialisation à 0 du comteur si stand vide
+                if (IsSendToIoTHub)
                 {
-                    _iotHubPublisher.SendDataAsync(new DeviceNotification(DeviceId, detectionInfo.Rectangles.Count));
+                    DeviceNotification FacesAnalysis = new DeviceNotification(DeviceId, 
+                        detectionInfo.Rectangles.Count,
+                        detectionInfo.MaleCount, 
+                        detectionInfo.FemaleCount, 
+                        detectionInfo.SmileCount,
+                        detectionInfo.SunGlassesCount,
+                        detectionInfo.ReadingGlassesCount,
+                        detectionInfo.AgeAverage,
+                        detectionInfo.EmotionHappyCount,
+                        detectionInfo.EmotionNeutralCount,
+                        detectionInfo.EmotionDisgustCount,
+                        detectionInfo.EmotionAngerCount,
+                        detectionInfo.HappyRatio,
+                        detectionInfo.HearyCount
+                        );
+
+                    _iotHubPublisher.SendDataAsync(FacesAnalysis);
+                    //_iotHubPublisher.SendDataAsync(new DeviceNotification(DeviceId, detectionInfo.Rectangles.Count));
                 }
             }
             catch(Exception ex)

@@ -37,18 +37,6 @@ namespace WpfCrowdDetection.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("5")]
-        public int FaceDetectionProcessInSeconds {
-            get {
-                return ((int)(this["FaceDetectionProcessInSeconds"]));
-            }
-            set {
-                this["FaceDetectionProcessInSeconds"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("DGWStand1")]
         public string DeviceId {
             get {
@@ -92,6 +80,18 @@ namespace WpfCrowdDetection.Properties {
             }
             set {
                 this["SharedAccessKey"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("5")]
+        public int FaceDetectionProcessInSeconds {
+            get {
+                return ((int)(this["FaceDetectionProcessInSeconds"]));
+            }
+            set {
+                this["FaceDetectionProcessInSeconds"] = value;
             }
         }
     }

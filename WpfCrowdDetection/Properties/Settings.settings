@@ -5,9 +5,6 @@
     <Setting Name="StandName" Type="System.String" Scope="User">
       <Value Profile="(Default)">Stand 01</Value>
     </Setting>
-    <Setting Name="FaceDetectionProcessInSeconds" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">5</Value>
-    </Setting>
     <Setting Name="DeviceId" Type="System.String" Scope="User">
       <Value Profile="(Default)">DGWStand1</Value>
     </Setting>
@@ -19,6 +16,9 @@
     </Setting>
     <Setting Name="SharedAccessKey" Type="System.String" Scope="User">
       <Value Profile="(Default)">CVw/GunXmjxhpcSzoUmbnm/wJN4N6f0uKfrJu3ppR9g=</Value>
+    </Setting>
+    <Setting Name="FaceDetectionProcessInSeconds" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">5</Value>
     </Setting>
   </Settings>
 </SettingsFile>

@@ -57,6 +57,7 @@ namespace WpfCrowdDetection.Model
             DeviceId = deviceId;
             Persons = persons;
         }
+
         public DeviceNotification(string deviceId,
             int persons,
             int males,

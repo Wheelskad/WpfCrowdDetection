@@ -12,6 +12,7 @@ namespace WpfCrowdDetection
         public MainWindow()
         {
             InitializeComponent();
+            HamburgerMenuControl.SelectedIndex = 0;
         }
 
         private void Window_Closed(object sender, System.EventArgs e)

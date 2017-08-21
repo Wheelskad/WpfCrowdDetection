@@ -14,7 +14,6 @@ namespace WpfCrowdDetection.Helper
 {
     public static class DetectFaceHelper
     {
-
         private static readonly IFaceServiceClient faceServiceClient = new FaceServiceClient("fd89d685a0754f0790e4383bfbcd36b8", "https://westus.api.cognitive.microsoft.com/face/v1.0");
 
         public static void DetectFacesOpenCV(
@@ -130,27 +129,28 @@ namespace WpfCrowdDetection.Helper
             try
             {
                 //Ajout des attributs du visage pour détection genre, tranche d'âge, sourire, barbe et lunettes
-                var requiredFaceAttributes = new FaceAttributeType[] {
-                FaceAttributeType.Age,
-                FaceAttributeType.Gender,
-                FaceAttributeType.Smile,
-                FaceAttributeType.Hair,
-                FaceAttributeType.FacialHair,
-                FaceAttributeType.Glasses,
-                FaceAttributeType.Accessories,
-                FaceAttributeType.Emotion     
-            };
+                var requiredFaceAttributes = new FaceAttributeType[]
+                {
+                    FaceAttributeType.Age,
+                    FaceAttributeType.Gender,
+                    FaceAttributeType.Smile,
+                    FaceAttributeType.Hair,
+                    FaceAttributeType.FacialHair,
+                    FaceAttributeType.Glasses,
+                    FaceAttributeType.Accessories,
+                    FaceAttributeType.Emotion
+                };
 
                 watch = Stopwatch.StartNew();
-                //var faces = await faceServiceClient.DetectAsync(imageStream);
-                var faces = await faceServiceClient.DetectAsync(imageStream, returnFaceId:true, returnFaceLandmarks:false, returnFaceAttributes: requiredFaceAttributes);
-                //var faceRects = faces.Select(face => face.FaceRectangle);
+                var faces = await faceServiceClient.DetectAsync(imageStream, returnFaceId: true,
+                    returnFaceLandmarks: false, returnFaceAttributes: requiredFaceAttributes);
                 watch.Stop();
                 var detectionTime = watch.ElapsedMilliseconds;
                 return faces.ToArray();
             }
             catch (Exception ex)
             {
+                App.Log.Error(ex.FlattenException());
                 return new Face[0];
             }
         }

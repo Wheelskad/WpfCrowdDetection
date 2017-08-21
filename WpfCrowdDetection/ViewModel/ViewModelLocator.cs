@@ -45,6 +45,8 @@ namespace WpfCrowdDetection.ViewModel
             SimpleIoc.Default.Register<ICustomDialogService, DialogService>();
 
             SimpleIoc.Default.Register<MainViewModel>();
+            SimpleIoc.Default.Register<HomeViewModel>();
+            SimpleIoc.Default.Register<SettingsViewModel>();
         }
 
         public MainViewModel Main
@@ -52,6 +54,22 @@ namespace WpfCrowdDetection.ViewModel
             get
             {
                 return ServiceLocator.Current.GetInstance<MainViewModel>();
+            }
+        }
+
+        public HomeViewModel Home
+        {
+            get
+            {
+                return ServiceLocator.Current.GetInstance<HomeViewModel>();
+            }
+        }
+
+        public SettingsViewModel Settings
+        {
+            get
+            {
+                return ServiceLocator.Current.GetInstance<SettingsViewModel>();
             }
         }
 

@@ -1,0 +1,14 @@
+﻿<UserControl x:Class="WpfCrowdDetection.Views.SettingsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:WpfCrowdDetection.Views"
+             mc:Ignorable="d" 
+             DataContext="{Binding Settings, Source={StaticResource Locator}}">
+    <StackPanel Orientation="Vertical">
+        <CheckBox Margin="10,10,0,0" IsChecked="{Binding IsShowCameraPreview}">Enable camera preview</CheckBox>
+        <CheckBox Margin="10,10,0,0" IsChecked="{Binding IsShowDetectionFacePreview}">Enable face detection preview</CheckBox>
+        <CheckBox Margin="10,10,0,0" IsChecked="{Binding IsSendToIoTHub}">Send to IoT Hub</CheckBox>
+    </StackPanel>
+</UserControl>

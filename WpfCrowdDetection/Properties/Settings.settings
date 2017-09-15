@@ -2,9 +2,6 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="WpfCrowdDetection.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
-    <Setting Name="StandName" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Stand 01</Value>
-    </Setting>
     <Setting Name="DeviceId" Type="System.String" Scope="User">
       <Value Profile="(Default)">DGWStand1</Value>
     </Setting>
@@ -18,7 +15,19 @@
       <Value Profile="(Default)">CVw/GunXmjxhpcSzoUmbnm/wJN4N6f0uKfrJu3ppR9g=</Value>
     </Setting>
     <Setting Name="FaceDetectionProcessInSeconds" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">5</Value>
+      <Value Profile="(Default)">2</Value>
+    </Setting>
+    <Setting Name="FaceApiUri" Type="System.String" Scope="User">
+      <Value Profile="(Default)">https://westeurope.api.cognitive.microsoft.com/face/v1.0</Value>
+    </Setting>
+    <Setting Name="FaceApiSubscriptionKey" Type="System.String" Scope="User">
+      <Value Profile="(Default)">bd446f2d0b1b44a6ba0f3721a1970237</Value>
+    </Setting>
+    <Setting Name="StandName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Stand 01</Value>
+    </Setting>
+    <Setting Name="InputSimulationInSeconds" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">0</Value>
     </Setting>
   </Settings>
 </SettingsFile>

@@ -10,5 +10,10 @@
         <CheckBox Margin="10,10,0,0" IsChecked="{Binding IsShowCameraPreview}">Enable camera preview</CheckBox>
         <CheckBox Margin="10,10,0,0" IsChecked="{Binding IsShowDetectionFacePreview}">Enable face detection preview</CheckBox>
         <CheckBox Margin="10,10,0,0" IsChecked="{Binding IsSendToIoTHub}">Send to IoT Hub</CheckBox>
+
+        <StackPanel Margin="10,10,0,0" Orientation="Horizontal">
+            <TextBlock Text="Input simulation time in seconds" Margin="0,0,10,0"/>
+            <TextBox Text="{Binding InputSimulationInSeconds}" Width="50" />
+        </StackPanel>
     </StackPanel>
 </UserControl>

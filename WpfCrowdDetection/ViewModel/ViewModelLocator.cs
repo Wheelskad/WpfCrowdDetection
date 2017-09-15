@@ -75,7 +75,7 @@ namespace WpfCrowdDetection.ViewModel
 
         public static void Cleanup()
         {
-            var vm = ServiceLocator.Current.GetInstance<MainViewModel>();
+            var vm = ServiceLocator.Current.GetInstance<SettingsViewModel>();
             vm.Cleanup();
         }
     }

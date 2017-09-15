@@ -14,7 +14,7 @@ namespace WpfCrowdDetection.Helper
 {
     public static class DetectFaceHelper
     {
-        private static readonly IFaceServiceClient faceServiceClient = new FaceServiceClient("fd89d685a0754f0790e4383bfbcd36b8", "https://westus.api.cognitive.microsoft.com/face/v1.0");
+        private static readonly IFaceServiceClient faceServiceClient = new FaceServiceClient(Properties.Settings.Default.FaceApiSubscriptionKey, Properties.Settings.Default.FaceApiUri);
 
         public static void DetectFacesOpenCV(
            IInputArray image, String faceFileName, String eyeFileName,

@@ -25,18 +25,6 @@ namespace WpfCrowdDetection.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Stand 01")]
-        public string StandName {
-            get {
-                return ((string)(this["StandName"]));
-            }
-            set {
-                this["StandName"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("DGWStand1")]
         public string DeviceId {
             get {
@@ -85,13 +73,61 @@ namespace WpfCrowdDetection.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("5")]
+        [global::System.Configuration.DefaultSettingValueAttribute("2")]
         public int FaceDetectionProcessInSeconds {
             get {
                 return ((int)(this["FaceDetectionProcessInSeconds"]));
             }
             set {
                 this["FaceDetectionProcessInSeconds"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("https://westeurope.api.cognitive.microsoft.com/face/v1.0")]
+        public string FaceApiUri {
+            get {
+                return ((string)(this["FaceApiUri"]));
+            }
+            set {
+                this["FaceApiUri"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("bd446f2d0b1b44a6ba0f3721a1970237")]
+        public string FaceApiSubscriptionKey {
+            get {
+                return ((string)(this["FaceApiSubscriptionKey"]));
+            }
+            set {
+                this["FaceApiSubscriptionKey"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Stand 01")]
+        public string StandName {
+            get {
+                return ((string)(this["StandName"]));
+            }
+            set {
+                this["StandName"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int InputSimulationInSeconds {
+            get {
+                return ((int)(this["InputSimulationInSeconds"]));
+            }
+            set {
+                this["InputSimulationInSeconds"] = value;
             }
         }
     }

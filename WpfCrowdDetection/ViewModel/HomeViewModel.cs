@@ -169,7 +169,7 @@ namespace WpfCrowdDetection.ViewModel
             _timerFaceDetectionProcess.Interval = new TimeSpan(0, 0, 0, Properties.Settings.Default.FaceDetectionProcessInSeconds, 0);
             SettingsViewModel = settingsViewModel;
 
-            DetectionMode = DetectionModeEnum.Bing;
+            DetectionMode = DetectionModeEnum.OpenCV;
             DetectionInfo = new DetectionInfo();
         }
 
